@@ -3,5 +3,6 @@ project(AAL)
 
 set(CMAKE_CXX_STANDARD 17)
 
-set(SOURCE_FILES library.cpp library.h)
-add_library(AAL ${SOURCE_FILES})
+set(SOURCE_FILES main.cpp main.h Cuboid.cpp Cuboid.h Solver.cpp Solver.h CuboidContainer.cpp CuboidContainer.h NaiveSolver.cpp NaiveSolver.h CuboidParser.cpp CuboidParser.h)
+
+add_executable (AAL ${SOURCE_FILES})
