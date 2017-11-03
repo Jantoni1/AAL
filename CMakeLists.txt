@@ -3,6 +3,6 @@ project(AAL)
 
 set(CMAKE_CXX_STANDARD 17)
 
-set(SOURCE_FILES main.cpp main.h Cuboid.cpp Cuboid.h Solver.cpp Solver.h CuboidContainer.cpp CuboidContainer.h NaiveSolver.cpp NaiveSolver.h CuboidParser.cpp CuboidParser.h)
+set(SOURCE_FILES main.cpp Cuboid.cpp Cuboid.h Solver.cpp Solver.h CuboidContainer.cpp CuboidContainer.h NaiveSolver.cpp NaiveSolver.h CuboidParser.cpp CuboidParser.h)
 
 add_executable (AAL ${SOURCE_FILES})
