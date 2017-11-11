@@ -18,7 +18,7 @@ Cuboid::Cuboid(double length, double height, double depth)
 
 void Cuboid::rotate() {
     double tmp = depth_;
-    if(rotation_ % 2 == 1) {
+    if(rotation_ % 2 == 0) {
         depth_ = length_;
         length_ = tmp;
     }
@@ -26,8 +26,20 @@ void Cuboid::rotate() {
         depth_ = height_;
         height_ = tmp;
     }
-    mapVertices();
     rotation_ = (rotation_ + 1) % NUMBER_OF_ROTATIONS;
+}
+
+void Cuboid::rotateBack() {
+    double tmp = depth_;
+    if(rotation_ %2 == 0) {
+        depth_ = height_;
+        height_ = tmp;
+    }
+    else {
+        depth_ = length_;
+        length_ = tmp;
+    }
+    rotation_ = (rotation_ + NUMBER_OF_ROTATIONS - 1) % NUMBER_OF_ROTATIONS;
 }
 
 void Cuboid::mapVertices() {
@@ -36,14 +48,8 @@ void Cuboid::mapVertices() {
     z_ = depth_  + displacement_[2];
 }
 
-void Cuboid::rotate(int rotation) {
-    while(rotation_ != rotation) {
-        rotate();
-    }
-}
-
 void Cuboid::setDisplacement(const std::vector<double>& displacement) {
-    std::transform(displacement.begin(), displacement.end(), displacement_.begin(), [](double x) -> double {return x;});
+    std::transform(displacement.cbegin(), displacement.cend(), displacement_.begin(), [](double x) -> double {return x;});
     mapVertices();
 }
 
@@ -82,6 +88,7 @@ Cuboid::Cuboid()
 {
     rotation_ = 0;
     displacement_ = {0.0 ,0.0 ,0.0};
+    mapVertices();
 }
 
 Cuboid::Cuboid(Cuboid && other) noexcept
@@ -90,8 +97,38 @@ Cuboid::Cuboid(Cuboid && other) noexcept
 , depth_(other.depth_)
 , rotation_(other.rotation_)
 , displacement_(other.displacement_)
-{}
+{
+    mapVertices();
+}
 
+int Cuboid::getRotation_() const {
+    return rotation_;
+}
 
+Cuboid &Cuboid::operator=(const Cuboid& other) {
+    length_ = other.length_;
+    height_ = other.height_;
+    depth_ = other.depth_;
+    rotation_ = other.rotation_;
+    displacement_ = other.displacement_;
+    mapVertices();
+}
 
+const std::vector<double> Cuboid::getVertices() const{
+    return {x_,y_,z_};
+}
 
+void Cuboid::rotateHorizontally() {
+    (rotation_ % 2 == 0) ? rotate() : rotateBack();
+}
+
+std::ostream &operator<<(std::ostream &str, Cuboid &data) {
+    str << data.displacement_[0] << " " << data.displacement_[1] << " " <<data.displacement_[2] <<std::endl;
+    str << data.displacement_[0] + data.x_ << " " << data.displacement_[1] << " " << data.displacement_[2] << std::endl;
+    str << data.displacement_[0] << " " << data.displacement_[1] + data.y_ << " " <<data.displacement_[2] <<std::endl;
+    str << data.displacement_[0] << " " << data.displacement_[1] << " " <<data.displacement_[2] + data.z_ <<std::endl;
+    str << data.displacement_[0] + data.x_ << " " << data.displacement_[1] + data.y_ << " " <<data.displacement_[2] <<std::endl;
+    str << data.displacement_[0] + data.x_ << " " << data.displacement_[1] << " " <<data.displacement_[2] + data.z_ <<std::endl;
+    str << data.displacement_[0] << " " << data.displacement_[1] + data.y_ << " " <<data.displacement_[2] + data.z_ <<std::endl;
+    str << data.displacement_[0] + data.x_ << " " << data.displacement_[1] + data.y_ << " " <<data.displacement_[2] + data.z_ <<std::endl;
+}

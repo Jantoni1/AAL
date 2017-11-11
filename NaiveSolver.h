@@ -15,7 +15,6 @@ public:
 
     NaiveSolver() = default;
     void arrange(CuboidContainer& container) override;
-    void turnShortestUp(Cuboid& cuboid, double height) const;
      ~NaiveSolver() override = default;
 
 };

@@ -13,12 +13,13 @@ CuboidParser::~CuboidParser() {
 
 CuboidContainer CuboidParser::parseFileData(std::string fileName) {
     CuboidContainer cuboidContainer;
-    std::vector<Cuboid> outside;
     myFile_.open(fileName);
     myFile_ >> cuboidContainer;
+    Cuboid* tmp;
     while(!myFile_.eof()) {
-        cuboidContainer.outside_.emplace_back(*(new Cuboid()));
-        myFile_ >> cuboidContainer.outside_.back();
+        tmp = new Cuboid();
+        myFile_ >> *tmp;
+        cuboidContainer.outside_.push_back(tmp);
     }
     myFile_.close();
     return cuboidContainer;

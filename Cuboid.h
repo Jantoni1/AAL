@@ -36,15 +36,23 @@ public:
 
     Cuboid(const Cuboid& other);
 
+    int getRotation_() const;
+
     Cuboid(Cuboid&& other) noexcept;
 
     ~Cuboid() = default;
 
+    Cuboid& operator=(const Cuboid& other);
+
     friend std::istream& operator>>(std::istream& str, Cuboid& data);
+
+    friend std::ostream& operator<<(std::ostream &str, Cuboid& data);
 
     void rotate();
 
-    void rotate(int rotation);
+    void rotateBack();
+
+    void rotateHorizontally();
 
     void mapVertices();
 
@@ -55,6 +63,8 @@ public:
     double getHeight() const;
 
     double getDepth() const;
+
+    const std::vector<double> getVertices() const;
 };
 
 

@@ -15,8 +15,9 @@ private:
 
 public:
     Solver() = default;
-    virtual void arrange(CuboidContainer& array) = 0;
+    virtual void arrange(CuboidContainer& container) = 0;
     virtual ~Solver() = default;
+    virtual void turnShortestUp(Cuboid* cuboid, double height) const final;
 };
 
 

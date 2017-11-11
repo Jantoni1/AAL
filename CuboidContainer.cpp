@@ -46,7 +46,28 @@ CuboidContainer::CuboidContainer(const CuboidContainer &other)
 {
 }
 
-const std::vector<Cuboid> &CuboidContainer::getEmplaced_() const {
+const std::vector<Cuboid*> &CuboidContainer::getEmplaced_() const {
     return emplaced_;
+}
+
+void CuboidContainer::put(Cuboid *cuboid) {
+        emplaced_.emplace_back(cuboid);
+}
+
+CuboidContainer::~CuboidContainer() {
+    for(Cuboid* cuboid : outside_) {
+            delete cuboid;
+    }
+    for(Cuboid* cuboid : emplaced_) {
+            delete cuboid;
+    }
+}
+
+std::ostream &operator<<(std::ostream &str, CuboidContainer &data) {
+//    str << "Container's paremeters: length " << length_ << ", height: " << height_ << ", depth: " << depth_ <<std::endl << std::endl;
+    str << data.length_ << " " << data.height_ << " " << data.depth_ <<std::endl;
+    for(Cuboid* cuboid : data.emplaced_) {
+        str << *cuboid;
+    }
 }
 
