@@ -8,12 +8,16 @@ void TreeShelfSolver::arrange(CuboidContainer &container) {
     double heightOffset = 0.0;
     std::vector<TreeShelf*> shelves;
     std::for_each(container.outside_.begin(), container.outside_.end(),
-                  [&](Cuboid* cuboid) {turnShortestUp(cuboid, 0.0);});
+                  [&](Cuboid* cuboid) {
+                      turnShortestUp(cuboid, 0.0);
+                      cuboid->checkIfPossible(container.getLength(), container.getDepth());});
     while(!container.outside_.empty()) {
         shelves.push_back(new TreeShelf(container.getLength(), container.getDepth(), heightOffset));
         auto it = std::remove_if(container.outside_.begin(), container.outside_.end(),
-                                 [&](Cuboid* cuboid) -> bool { return shelves.back()->add(cuboid);});
+                                 [&](Cuboid* cuboid) -> bool {
+                                     return shelves.back()->add(cuboid);});
         container.outside_.erase(it, container.outside_.end());
+
         heightOffset += shelves.back()->getCurrentHeight_();
         for (auto it : *shelves.back()) {
             if(it->cuboid_ != nullptr) {

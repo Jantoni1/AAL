@@ -11,10 +11,10 @@
 #include <sstream>
 #include <algorithm>
 #include <cctype>
+#include <tuple>
 
-static int NUMBER_OF_ROTATIONS = 6;
 
-class Cuboid {
+class  Cuboid {
 private:
     double x_;
     double y_;
@@ -24,9 +24,11 @@ private:
     double height_;
     double depth_;
 
+    std::tuple<double, double, double> center;
     std::vector<double> displacement_;
 
     int rotation_;
+    const static int NUMBER_OF_ROTATIONS = 6;
 
 public:
 
@@ -58,6 +60,8 @@ public:
 
     void setDisplacement(const std::vector<double>& displacement);
 
+    double getCoordinate(int coordinate) const;
+
     double getLength() const;
 
     double getHeight() const;
@@ -65,6 +69,15 @@ public:
     double getDepth() const;
 
     const std::vector<double> getVertices() const;
+
+    void checkIfPossible(double length, double depth);
+
+    static const int getMaxRotations();
+
+    void calculateCenter();
+
+    const std::tuple<double, double, double>& getCenter() const;
+
 };
 
 

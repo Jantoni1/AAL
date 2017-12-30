@@ -85,7 +85,7 @@ double TreeShelf::getCurrentHeight_() const {
     return currentHeight_;
 }
 
-TreeShelf::TreeShelf(TreeShelf &&other)
+TreeShelf::TreeShelf(TreeShelf &&other) noexcept
         : root_(other.root_)
         , currentHeight_(other.currentHeight_)
 {

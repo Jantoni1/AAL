@@ -46,6 +46,7 @@ void Cuboid::mapVertices() {
     x_ = length_ + displacement_[0];
     y_ = height_ + displacement_[1];
     z_ = depth_  + displacement_[2];
+    calculateCenter();
 }
 
 void Cuboid::setDisplacement(const std::vector<double>& displacement) {
@@ -96,7 +97,7 @@ Cuboid::Cuboid(Cuboid && other) noexcept
 , height_(other.height_)
 , depth_(other.depth_)
 , rotation_(other.rotation_)
-, displacement_(other.displacement_)
+, displacement_(std::move(other.displacement_))
 {
     mapVertices();
 }
@@ -122,13 +123,57 @@ void Cuboid::rotateHorizontally() {
     (rotation_ % 2 == 0) ? rotate() : rotateBack();
 }
 
-std::ostream &operator<<(std::ostream &str, Cuboid &data) {
-    str << data.displacement_[0] << " " << data.displacement_[1] << " " <<data.displacement_[2] <<std::endl;
-    str << data.displacement_[0] + data.x_ << " " << data.displacement_[1] << " " << data.displacement_[2] << std::endl;
-    str << data.displacement_[0] << " " << data.displacement_[1] + data.y_ << " " <<data.displacement_[2] <<std::endl;
-    str << data.displacement_[0] << " " << data.displacement_[1] << " " <<data.displacement_[2] + data.z_ <<std::endl;
-    str << data.displacement_[0] + data.x_ << " " << data.displacement_[1] + data.y_ << " " <<data.displacement_[2] <<std::endl;
-    str << data.displacement_[0] + data.x_ << " " << data.displacement_[1] << " " <<data.displacement_[2] + data.z_ <<std::endl;
-    str << data.displacement_[0] << " " << data.displacement_[1] + data.y_ << " " <<data.displacement_[2] + data.z_ <<std::endl;
-    str << data.displacement_[0] + data.x_ << " " << data.displacement_[1] + data.y_ << " " <<data.displacement_[2] + data.z_ <<std::endl;
+std::ostream &operator<<(std::ostream &str, Cuboid &cuboid) {
+    cuboid.mapVertices();
+    str << cuboid.displacement_[0] << " " << cuboid.displacement_[1] << " " <<cuboid.displacement_[2] <<std::endl;
+    str << cuboid.x_ << " " << cuboid.displacement_[1] << " " << cuboid.displacement_[2] << std::endl;
+    str << cuboid.displacement_[0] << " " << cuboid.y_ << " " <<cuboid.displacement_[2] <<std::endl;
+    str << cuboid.displacement_[0] << " " << cuboid.displacement_[1] << " " <<cuboid.z_ <<std::endl;
+    str << cuboid.x_ << " " << cuboid.y_ << " " <<cuboid.displacement_[2] <<std::endl;
+    str << cuboid.x_ << " " << cuboid.displacement_[1] << " " << cuboid.z_ <<std::endl;
+    str << cuboid.displacement_[0] << " " << cuboid.y_ << " " << cuboid.z_ <<std::endl;
+    str << cuboid.x_ << " " << cuboid.y_ << " " << cuboid.z_ <<std::endl;
 }
+
+void Cuboid::checkIfPossible(double length, double depth) {
+    if(length < length_ || depth < depth_) {
+        if(depth >= length_ && length >= depth_) {
+            double tmp = length_;
+            length_ = depth_;
+            depth_ = tmp;
+        }
+        else {
+            for(int i = 0; i < NUMBER_OF_ROTATIONS; ++i) {
+                rotate();
+                if((depth >= length_ && length >= depth_) || (depth >= depth_ && length >= length_)) {
+                    return;
+                }
+            }
+        }
+    }
+}
+
+const int Cuboid::getMaxRotations(){
+    return NUMBER_OF_ROTATIONS;
+}
+
+void Cuboid::calculateCenter() {
+    std::get<0>(center) = displacement_[0] + length_/2;
+    std::get<1>(center) = displacement_[1] + height_/2;
+    std::get<2>(center) = displacement_[2] + depth_ /2;
+}
+
+const std::tuple<double, double, double> &Cuboid::getCenter() const {
+    return center;
+}
+
+double Cuboid::getCoordinate(int coordinate) const {
+    switch(coordinate) {
+        case 0 : return x_;
+        case 1 : return y_;
+        case 2 : return z_;
+        default : throw std::out_of_range("Trying to get non-existing coordinate.");
+    }
+}
+
+

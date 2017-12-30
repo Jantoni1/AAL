@@ -10,7 +10,7 @@
 
 class TreeShelf {
 private:
-    struct Node;
+    class Node;
 
     Node* root_;
     double currentHeight_;

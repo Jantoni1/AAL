@@ -7,16 +7,19 @@
 
 #include <fstream>
 #include <iostream>
+#include <sstream>
 #include "CuboidContainer.h"
 
 class CuboidParser {
 private:
-    std::ifstream myFile_;
+
 public:
     CuboidParser() = default;
-    ~CuboidParser();
+    ~CuboidParser() = default;
 
-    CuboidContainer parseFileData(std::string fileName);
+    static std::vector<std::vector<CuboidContainer*> > parseFileData();
+
+    static void exportSolutionData(std::vector<CuboidContainer*> data);
 };
 
 

@@ -32,7 +32,8 @@ public:
     double getDepth() const;
 
     void put(Cuboid* cuboid);
-    const std::vector<Cuboid*> &getEmplaced_() const;
+
+    const std::vector<Cuboid*> &getEmplaced() const;
 
     friend std::istream& operator>>(std::istream& str, CuboidContainer& data);
 
