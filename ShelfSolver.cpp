@@ -23,13 +23,14 @@ void ShelfSolver::arrange(CuboidContainer &container) {
             length = container.getLength();
             currentDepth = container.getDepth();
             currentHeight += newHeight;
+            newHeight = 0.0;
         }
         else {
             for(Cuboid* cuboid : shelf.getContent_()) {
                 container.put(cuboid);
             }
             shelf.getContent_().clear();
-            if(shelf.getCurrentHeight_() > 0.0) {
+            if(shelf.getCurrentHeight_() > newHeight) {
                 newHeight = shelf.getCurrentHeight_();
             }
             currentDepth -= shelf.getCurrentDepth_();
