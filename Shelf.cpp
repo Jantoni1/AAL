@@ -27,7 +27,6 @@ void Shelf::put(Cuboid* cuboid) {
     if(cuboid->getDepth() > currentDepth_) {
         currentDepth_ = cuboid->getDepth();
     }
-
     if(cuboid->getHeight() > currentHeight_) {
         currentHeight_ = cuboid->getHeight();
     }
@@ -50,7 +49,7 @@ std::vector<Cuboid*>& Shelf::getContent_() {
 }
 
 bool Shelf::fits(Cuboid &cuboid) const {
-    if(cuboid.getLength() > currentLength_ || cuboid.getDepth() > maxDepth_) {
+    if(cuboid.getLength() <= currentLength_ && cuboid.getDepth() <= maxDepth_) {
         return true;
     }
     if(cuboid.getLength() <= maxDepth_ && cuboid.getDepth() <= currentLength_) {

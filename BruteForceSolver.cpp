@@ -16,6 +16,7 @@ void BruteForceSolver::arrange(CuboidContainer &container) {
         emplaceNextCuboid();
         delete cuboidIterator;
         currentPermutation.clear();
+
     } while(std::next_permutation(cuboidPermutation.begin(), cuboidPermutation.end()));
     clear();
 }

@@ -121,7 +121,7 @@ CornerContainer::Iterator &CornerContainer::Iterator::operator++() {
     if(stack_.empty()) {
         throw std::out_of_range("Tried to increment end() iterator");
     }
-    if(stack_.back() == 2) {
+    if((stack_.back() == 2 && stack_.size() > 1) || (stack_.back() == parent_.corners.size() - 1)) {
         stack_.pop_back();
         current_ = current_->parent_;
         return *this;

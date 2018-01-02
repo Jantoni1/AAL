@@ -125,14 +125,8 @@ void Cuboid::rotateHorizontally() {
 
 std::ostream &operator<<(std::ostream &str, Cuboid &cuboid) {
     cuboid.mapVertices();
-    str << cuboid.displacement_[0] << " " << cuboid.displacement_[1] << " " <<cuboid.displacement_[2] <<std::endl;
-    str << cuboid.x_ << " " << cuboid.displacement_[1] << " " << cuboid.displacement_[2] << std::endl;
-    str << cuboid.displacement_[0] << " " << cuboid.y_ << " " <<cuboid.displacement_[2] <<std::endl;
-    str << cuboid.displacement_[0] << " " << cuboid.displacement_[1] << " " <<cuboid.z_ <<std::endl;
-    str << cuboid.x_ << " " << cuboid.y_ << " " <<cuboid.displacement_[2] <<std::endl;
-    str << cuboid.x_ << " " << cuboid.displacement_[1] << " " << cuboid.z_ <<std::endl;
-    str << cuboid.displacement_[0] << " " << cuboid.y_ << " " << cuboid.z_ <<std::endl;
-    str << cuboid.x_ << " " << cuboid.y_ << " " << cuboid.z_ <<std::endl;
+    str << cuboid.getLength() << " " << cuboid.getHeight() << " " << cuboid.getDepth() << " ";
+    str << cuboid.displacement_[0] << " " << cuboid.displacement_[1] << " " << cuboid.displacement_[2];
 }
 
 void Cuboid::checkIfPossible(double length, double depth) {
@@ -169,9 +163,9 @@ const std::tuple<double, double, double> &Cuboid::getCenter() const {
 
 double Cuboid::getCoordinate(int coordinate) const {
     switch(coordinate) {
-        case 0 : return x_;
-        case 1 : return y_;
-        case 2 : return z_;
+        case 0 : return length_;
+        case 1 : return height_;
+        case 2 : return depth_;
         default : throw std::out_of_range("Trying to get non-existing coordinate.");
     }
 }

@@ -28,6 +28,8 @@ private:
 
     std::uniform_real_distribution<double> unif_;
 
+    std::uniform_real_distribution<double> fractions_;
+
     std::uniform_int_distribution<int> unifInt_;
 
     int min_;
@@ -38,6 +40,9 @@ private:
 
     std::vector<std::pair<std::string, std::function<void(int, char**)> > > programModes_;
 
+    std::vector<std::function<double(double)> > functions;
+
+    std::vector<std::function<void(CuboidContainer&)> > algorithms;
 
     void parseFileMode(int argc, char* argv[]) const;
 
@@ -53,15 +58,15 @@ private:
 
     void runBruteForceSolver(CuboidContainer& cuboidContainer) const;
 
-    void runSolvers() const;
+    void runSolvers(int algorithm) const;
 
-    std::vector<std::vector<CuboidContainer*> >createCuboidContainers() const;
+    std::vector<CuboidContainer*> createCuboidContainers() const;
 
-    void runAlgorithms(std::vector<CuboidContainer*>& containers) const;
+    void runAlgorithms(int algorithm, CuboidContainer* container) const;
 
     void generateSolveAndExportProblemInstances(int numberOfInstances);
 
-    std::vector<long long int> generateSolveAndExportProblemInstances(int numberOfInstances, int problemSize);
+    long long int generateSolveAndExportProblemInstances(int algorithm, int numberOfInstances, int problemSize);
 
     CuboidContainer* generateSingleProblem();
 
@@ -69,11 +74,19 @@ private:
 
     double generateRandomDouble();
 
+    double generateRandomDouble(double seed);
+
     int generateRandomInt();
 
     long long int measureAlgorithmTime(std::function<void(CuboidContainer &cuboidContainer)> function, CuboidContainer &cuboidContainer) const;
 
     void createStatistics(std::vector<int>& parameters);
+
+    double factorial(double number) const;
+
+    double timeComplexityCalculator(int mode, double time, double complexity, double medianComplexity, double medianTime) const;
+
+    double bruteForceComplexity(double n);
 public:
     ProgramArgumentParser();
 

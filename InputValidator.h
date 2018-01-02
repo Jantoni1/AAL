@@ -19,7 +19,7 @@ public:
 
     void showHelpDocument() const;
 
-    bool checkInputCorrectness(int argc) const;
+    std::vector<int> checkInputCorrectness(int argc, char** argv) const;
 
     int parseGeneratorModeNumberOfProblemInstances(char* argv[]) const;
 

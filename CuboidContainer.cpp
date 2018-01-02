@@ -69,9 +69,9 @@ CuboidContainer::~CuboidContainer() {
 
 std::ostream &operator<<(std::ostream &str, CuboidContainer &data) {
 //    str << "Container's paremeters: length " << length_ << ", height: " << height_ << ", depth: " << depth_ <<std::endl << std::endl;
-    str << data.length_ << " " << data.height_ << " " << data.depth_<<std::endl;
+    str << data.length_ << " " << data.height_ << " " << data.depth_;
     for(Cuboid* cuboid : data.emplaced_) {
-        str << *cuboid;
+        str << std::endl << *cuboid;
     }
     str.flush();
 }

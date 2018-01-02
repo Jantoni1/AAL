@@ -10,7 +10,11 @@ void ShelfSolver::arrange(CuboidContainer &container) {
     double currentHeight = 0.0;
     double length = container.getLength();
     double currentDepth = container.getDepth();
-    std::for_each(container.outside_.begin(), container.outside_.end(), [&](Cuboid* cuboid) {turnShortestUp(cuboid, 0.0);});
+    std::for_each(container.outside_.begin(), container.outside_.end(), [&](Cuboid* cuboid) {
+            turnShortestUp(cuboid, 0.0);
+            while(cuboid->getLength() > container.getLength() || cuboid->getDepth() > container.getDepth()) {
+                cuboid->rotate();
+            }});
     while(!container.outside_.empty()) {
         Shelf shelf(currentDepth, length, currentHeight, container.getDepth() - currentDepth);
         auto it = std::remove_if(container.outside_.begin(), container.outside_.end(), [&](Cuboid* cuboid) -> bool { return shelf.add(cuboid);});
@@ -18,7 +22,7 @@ void ShelfSolver::arrange(CuboidContainer &container) {
         if(shelf.getContent_().empty()) {
             length = container.getLength();
             currentDepth = container.getDepth();
-            currentHeight = newHeight;
+            currentHeight += newHeight;
         }
         else {
             for(Cuboid* cuboid : shelf.getContent_()) {
@@ -26,9 +30,9 @@ void ShelfSolver::arrange(CuboidContainer &container) {
             }
             shelf.getContent_().clear();
             if(shelf.getCurrentHeight_() > 0.0) {
-                newHeight += shelf.getCurrentHeight_();
+                newHeight = shelf.getCurrentHeight_();
             }
-            currentDepth = container.getDepth() - shelf.getCurrentDepth_();
+            currentDepth -= shelf.getCurrentDepth_();
         }
     }
     container.setHeight(newHeight);
